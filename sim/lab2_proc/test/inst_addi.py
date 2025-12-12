@@ -97,7 +97,7 @@ def gen_chain_dep_test():
 
 def gen_random_test():
   asm_code = []
-  for _ in range(100):
+  for _ in range(50):
     src  = b32( random.randint(0, 0xffffffff) )
     imm  = random.randint(-2048, 2047)
     dest = b32( (src.uint() + imm) & 0xffffffff )

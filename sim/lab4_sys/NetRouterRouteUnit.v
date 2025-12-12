@@ -18,8 +18,6 @@ module lab4_sys_NetRouterRouteUnit
   input  logic                   clk,
   input  logic                   reset,
 
-  // Router id (which router is this in the network?)
-
   input  logic [1:0]             router_id,
 
   // Input stream
@@ -38,9 +36,36 @@ module lab4_sys_NetRouterRouteUnit
   net_msg_hdr_t istream_msg_hdr;
   assign istream_msg_hdr = istream_msg[`VC_NET_MSGS_HDR(p_msg_nbits)];
 
-  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement route unit logic
-  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  always_comb begin
+    // default is no valid outputs
+    ostream_msg[0] = '0;
+    ostream_msg[1] = '0;
+    ostream_msg[2] = '0;
+    ostream_val[0] = 1'b0;
+    ostream_val[1] = 1'b0;
+    ostream_val[2] = 1'b0;
+    istream_rdy    = 1'b0;
+
+    if (istream_val) begin
+
+      // message is for this router
+      if (istream_msg_hdr.dest == router_id) begin
+        ostream_msg[0] = istream_msg;
+        ostream_val[0] = 1'b1;
+        istream_rdy    = ostream_rdy[0];
+      end
+
+      // message is not for this router
+      else begin
+        // always send clockwise on port 1
+        ostream_msg[1] = istream_msg;
+        ostream_val[1] = 1'b1;
+        istream_rdy    = ostream_rdy[1];
+      end
+
+    end
+  end
+
 
   //----------------------------------------------------------------------
   // Line Tracing

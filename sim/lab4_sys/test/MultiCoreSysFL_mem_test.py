@@ -38,17 +38,19 @@ class Tests:
   #-----------------------------------------------------------------------
 
   @pytest.mark.parametrize( "name,test", [
-    asm_test( inst_mem_mcore.gen_basic_test     ),
-
-    #''' LAB TASK ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    # Add more rows to the test case table to test more complicated
-    # scenarios.
-    #'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    asm_test( inst_mem_mcore.gen_basic_test                ),
+    asm_test( inst_mem_mcore.gen_cross_bank_test           ),
+    asm_test( inst_mem_mcore.gen_bank_conflict_test        ),
+    asm_test( inst_mem_mcore.gen_interleave_rw_test        ),
+    asm_test( inst_mem_mcore.gen_mixed_stride_test         ),
+    asm_test( inst_mem_mcore.gen_reverse_order_test        ),
+    asm_test( inst_mem_mcore.gen_random_multiline_test     ),
+    asm_test( inst_mem_mcore.gen_random_dualop_test        ),
   ])
   def test_mem_mcore( s, name, test ):
     run_test( s.SysType, test, cmdline_opts=s.__class__.cmdline_opts )
 
-  #''' LAB TASK ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  # random stall and delay
-  #'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  def test_mem_mcore_delays( s ):
+    run_test( s.SysType, inst_mem_mcore.gen_random_dualop_test, delays=True,
+              cmdline_opts=s.__class__.cmdline_opts )
 

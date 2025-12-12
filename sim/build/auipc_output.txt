@@ -1,0 +1,10 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.9, pytest-8.3.2, pluggy-1.5.0
+rootdir: /home/scz6/ece4750/lab-group74/sim
+configfile: pytest.ini
+plugins: hypothesis-6.111.2, pymtl3-3.1.16
+collected 240 items / 239 deselected / 1 selected
+
+../lab4_sys/test/SingleCoreSys_test.py .                                 [100%]
+
+====================== 1 passed, 239 deselected in 1.44s =======================

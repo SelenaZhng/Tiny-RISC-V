@@ -1,0 +1,13 @@
+
+../ece4750/ece4750-bthread-test.c::test_case_1_numcores_coreid [32m.[0m[32m.[0m
+../ece4750/ece4750-bthread-test.c::test_case_2_spawn_core1 [32m.[0m
+../ece4750/ece4750-bthread-test.c::test_case_3_spawn_core2 [32m.[0m
+../ece4750/ece4750-bthread-test.c::test_case_4_spawn_core3 [32m.[0m
+../ece4750/ece4750-bthread-test.c::test_case_5_spawn_all_cores [32m.[0m[32m.[0m[32m.[0m
+../ece4750/ece4750-bthread-test.c::test_case_6_multi_spawn_core1 [32m.[0m[32m.[0m
+../ece4750/ece4750-bthread-test.c::test_case_7_multi_spawn_core2 [32m.[0m[32m.[0m
+../ece4750/ece4750-bthread-test.c::test_case_8_multi_spawn_core3 [32m.[0m[32m.[0m
+../ece4750/ece4750-bthread-test.c::test_case_9_multi_spawn_all_cores [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m
+../ece4750/ece4750-bthread-test.c::test_case_10_spawn_args [32m.[0m[32m.[0m[32m.[0m
+../ece4750/ece4750-bthread-test.c::test_case_11_spawn_accumulate [32m.[0m[32m.[0m[32m.[0m[32m.[0m
+

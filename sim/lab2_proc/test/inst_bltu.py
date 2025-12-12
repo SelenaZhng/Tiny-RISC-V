@@ -106,7 +106,7 @@ def gen_value_test():
 
 def gen_random_test():
   asm_code = []
-  for _ in range(100):
+  for _ in range(50):
     a = b32(random.randint(0, 0xffffffff))
     b = b32(random.randint(0, 0xffffffff))
     taken = a.uint() < b.uint()

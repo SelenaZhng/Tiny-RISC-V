@@ -125,7 +125,7 @@ module lab2_proc_ProcAltDpath
   // dmem addr/data come from alu + latched rs2
   assign dmem_reqstream_msg_addr = alu_result_X;
   // note: alt path forwards raw alu result (lsb masking handled elsewhere)
-  assign jalr_target_X = alu_result_X;
+  assign jalr_target_X = {alu_result_X[31:1], 1'b0};
   assign dmem_reqstream_msg_data = dmem_write_reg_out;
 
   // pc select (seq, branch, jal, jalr)

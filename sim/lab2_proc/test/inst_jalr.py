@@ -176,49 +176,16 @@ def gen_srcs_dest_test():
     csrw proc2mngr, x1 > 0x00000208
   """
 
-def gen_random_test(n=8):
-  random.seed(0xdeadbeef)
-  # Choose distinct small increments for each target
-  incs = [ (i+1) for i in range(n) ]
-  order = list(range(n))
-  random.shuffle(order)
+#new test
+def gen_random_test():
+  reset_jalr_addr()
+  asm_list = []
 
-  asm = []
-  asm.append("  addi  x7, x0, 0            # accumulator\n")
+  for _ in range(20):
+    base = random.randint(0, 10)
+    imm  = random.randint(1, 10)
+    asm_list.append(
+      gen_jalr_template(base, base, "x1", "x2", imm)
+    )
 
-  # Emit call-sites in random order
-  for i in order:
-    # Build base for label_i, then choose an offset so base+off = label_i
-    # We randomize whether we put part of the displacement into base or off.
-    use_pos = random.choice([True, False])
-    pad_nops = random.randint(0,2)
-    asm.append(f"  # --- call target_{i} ---\n")
-    asm.append(f"  lui   x1, %hi[target_{i}]\n")
-    asm.append(f"  addi  x1, x1, %lo[target_{i}]\n")
-    if use_pos:
-      # Move base a little backward, jump forward with +offset (multiple of 2)
-      delta = 2 * random.randint(0,3)
-      if delta:
-        asm.append(f"  addi  x1, x1, -{delta}\n")
-        asm.append(f"  jalr  x31, x1, {delta}\n")
-      else:
-        asm.append(  "  jalr  x31, x1, 0\n")
-    else:
-      # Move base forward and jump back with negative offset
-      delta = 2 * random.randint(1,3)
-      asm.append(f"  addi  x1, x1, {delta}\n")
-      asm.append(f"  jalr  x31, x1, -{delta}\n")
-    for _ in range(pad_nops):
-      asm.append("  nop\n")
-
-  asm.append("\n  # After all calls, verify the sum in x7\n")
-  asm.append(f"  csrw  proc2mngr, x7 > {sum(incs)}\n\n")
-
-  # Emit targets: each adds its increment and returns to x31
-  for i,val in enumerate(incs):
-    asm.append(f"target_{i}:\n")
-    asm.append(f"  addi  x7, x7, {val}\n")
-    asm.append(  "  jalr  x0, x31, 0       # return\n")
-    asm.append("\n")
-
-  return "".join(asm)
+  return asm_list

@@ -572,4 +572,68 @@ def gen_ld_base_eq_dest_test( inst, base, result ):
 def gen_ld_value_test( inst, offset, base, result ):
   return gen_ld_template( 0, 0, "x1", inst, offset, base, result )
 
+jalr_addr = 0x0200
+reg_id = 0
+
+def reset_jalr_addr():
+  global jalr_addr
+  jalr_addr = 0x0200
+
+def _signed_aligned_offset(imm):
+  """
+  Compute the signed, even-aligned offset:
+  """
+  # Mask off the least significant bit (force even), then negate.
+  return - (imm & 0xfffffffe)
+
+def gen_jalr_template(num_nops_src, num_nops_dest, src, dest, imm):
+
+  global jalr_addr, reg_id
+
+  # Generate label name sequence: label_1, label_2, ...
+  reg_id += 1
+  label_name = f"label_{reg_id}"
+
+  # Compute signed aligned immediate
+  s_imm = _signed_aligned_offset(imm)
+
+  # Instruction counts before and after the jump site
+  instrs_before = num_nops_src + 5   
+  instrs_after  = num_nops_dest + 4  
+
+  # Address we expect to be linked into dest after the JALR
+  jump_addr = jalr_addr + 4 * instrs_before
+
+  # Advance global jalr_addr for the next test case
+  jalr_addr += 4 * (instrs_before + instrs_after)
+
+  # Build the assembly string
+  asm = f"""
+
+    # Use r3 to track the control flow pattern
+    addi  x3, x0, 0     # 0x0200
+    lui   {src},        %hi[{label_name}]
+    addi  {src}, {src}, %lo[{label_name}]
+    addi  {src}, {src}, {s_imm}
+
+                        #
+{gen_nops(num_nops_src)}\
+                        #
+    jalr {dest}, {src}, {imm}  #
+    addi  x3, x3, 0b01  #
+
+{gen_nops(num_nops_dest)}\
+  {label_name}:
+    addi  x3, x3, 0b10
+
+    # Check the link address
+    csrw  proc2mngr, {dest} > {jump_addr}
+
+    # Only the second bit should be set if jump was taken
+    csrw  proc2mngr, x3 > 0b10
+
+  """
+
+  return asm
+
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''

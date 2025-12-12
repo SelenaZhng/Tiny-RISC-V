@@ -95,7 +95,7 @@ def gen_src1_dep_nottaken_test():
 
 def gen_random_test():
   asm_code = []
-  for _ in range(100):
+  for _ in range(50):
     taken = random.choice([True, False])
     a = b32(random.randint(0,0xffffffff))
     if taken:

@@ -29,9 +29,31 @@ module lab4_sys_NetRouterSwitchUnit
   input  logic                   ostream_rdy
 );
 
-  //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Implement switch unit logic
-  //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+always_comb begin
+  // defaults
+  ostream_val   = 0;
+  ostream_msg   = 0;
+  istream_rdy[0] = 0;
+  istream_rdy[1] = 0;
+  istream_rdy[2] = 0;
+
+  // fixed priority: 1 > 2 > 0
+  if ( istream_val[1] ) begin
+    ostream_val   = 1;
+    ostream_msg   = istream_msg[1];
+    istream_rdy[1] = ostream_rdy;
+  end
+  else if ( istream_val[2] ) begin
+    ostream_val   = 1;
+    ostream_msg   = istream_msg[2];
+    istream_rdy[2] = ostream_rdy;
+  end
+  else if ( istream_val[0] ) begin
+    ostream_val   = 1;
+    ostream_msg   = istream_msg[0];
+    istream_rdy[0] = ostream_rdy;
+  end
+end
 
   //----------------------------------------------------------------------
   // Line Tracing

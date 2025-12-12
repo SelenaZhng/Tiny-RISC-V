@@ -225,23 +225,26 @@ class Tests:
   def test_srl_delays(s):
     run_test(s.ProcType, inst_srl.gen_random_test, delays=True,
             cmdline_opts=s.__class__.cmdline_opts)
+    
   #-----------------------------------------------------------------------
   # sll
   #-----------------------------------------------------------------------
 
   @pytest.mark.parametrize( "name,test", [
     asm_test( inst_sll.gen_basic_test     ),
-    asm_test(inst_sll.gen_x0_test),
-  
+    asm_test( inst_sll.gen_basic_test     ),
+    asm_test( inst_sll.gen_dest_dep_test  ),
+    asm_test( inst_sll.gen_src0_dep_test  ),
+    asm_test( inst_sll.gen_src1_dep_test  ),
+    asm_test( inst_sll.gen_srcs_dep_test  ),
+    asm_test( inst_sll.gen_srcs_dest_test ),
+    asm_test( inst_sll.gen_value_test     ),
+    asm_test( inst_sll.gen_random_test    ),
   ])
   def test_sll( s, name, test ):
     run_test( s.ProcType, test, cmdline_opts=s.__class__.cmdline_opts )
 
-  def test_sll_delays_basic( s ):
+  def test_sll_delays( s ):
     run_test( s.ProcType, inst_sll.gen_basic_test, delays=True,
               cmdline_opts=s.__class__.cmdline_opts )
-
-  def test_sll_delays_x0( s ):
     
-    run_test( s.ProcType, lambda: inst_sll.gen_x0_test()[0], delays=True,
-              cmdline_opts=s.__class__.cmdline_opts )

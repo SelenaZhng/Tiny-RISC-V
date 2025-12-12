@@ -103,9 +103,30 @@ three_diff_dest = [
   NetMsgType( 0,   3,   0x10, 0x10101010 ),
 ]
 
-#''' LAB TASK ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-# Change above tests if necessary; add more directed tests
-#'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ten_same = [
+    NetMsgType(1, i%4, 0x20+i, 0x1000+i ) for i in range(10)
+]
+
+# Streams
+stream_src0 = [ NetMsgType(0,0,0x00+i,0x1000+i) for i in range(8) ]
+stream_src1 = [ NetMsgType(1,0,0x40+i,0x2000+i) for i in range(8) ]
+stream_src2 = [ NetMsgType(2,0,0x80+i,0x3000+i) for i in range(8) ]
+
+stream_all_sources = [
+  NetMsgType(0,0,0x00+i,0x1000+i)
+  for i in range(4)
+] + [
+  NetMsgType(1,0,0x40+i,0x2000+i)
+  for i in range(4)
+] + [
+  NetMsgType(2,0,0x80+i,0x3000+i)
+  for i in range(4)
+]
+
+stream_src0_src1 = stream_src0[:4] + stream_src1[:4]
+stream_src1_src2 = stream_src1[:4] + stream_src2[:4]
+stream_src0_src2 = stream_src0[:4] + stream_src2[:4]
+
 
 #-------------------------------------------------------------------------
 # Test Case Table
@@ -116,9 +137,25 @@ test_case_table = mk_test_case_table([
   [ "one",                         one,                  0,  0,  'fixed'  ],
   [ "three",                       three,                0,  0,  'fixed'  ],
   [ "three_diff_dest",             three_diff_dest,      0,  0,  'fixed'  ],
+  [ "ten_same",                    ten_same,             0,  0,  'fixed'  ],
 
-  #'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+  # Streaming tests
+  [ "stream_src0",          stream_src0,              0,         0,         'fixed' ],
+  [ "stream_src1",          stream_src1,              0,         0,         'fixed' ],
+  [ "stream_src2",          stream_src2,              0,         0,         'fixed' ],
+  [ "stream_src1_src2",     stream_src1_src2,         0,         0,         'fixed' ],
 
+  # Delay variations
+  [ "stream_src0_fixed_0x2", stream_src0,             0,         2,         'fixed' ],
+  [ "stream_src0_fixed_2x0", stream_src0,             2,         0,         'fixed' ],
+
+  # More variation
+  [ "stream_src1_src2_fixed_1x4", stream_src1_src2,   1,         4,         'fixed' ],
+
+  # Random delay tests
+  [ "stream_src0_rand_delay", stream_src0,            3,         20,        'random' ],
+  [ "stream_src1_rand_delay", stream_src1,            3,         20,        'random' ],
+  [ "stream_src2_rand_delay", stream_src2,            3,         20,        'random' ],
 ])
 
 #-------------------------------------------------------------------------

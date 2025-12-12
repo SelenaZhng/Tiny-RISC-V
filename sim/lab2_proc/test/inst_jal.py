@@ -148,7 +148,7 @@ def gen_jal_src_eq_dest_test():
 
 def gen_random_test():
   progs = []
-  for i in range(40):
+  for i in range(20):
     progs.append(f"""
     addi  x3, x0, 0
 

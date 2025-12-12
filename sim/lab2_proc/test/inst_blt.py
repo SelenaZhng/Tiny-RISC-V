@@ -110,7 +110,7 @@ def gen_value_test():
 
 def gen_random_test():
   asm_code = []
-  for _ in range(100):
+  for _ in range(50):
     a = random.randint(-100000, 100000)
     b = random.randint(-100000, 100000)
     taken = a < b

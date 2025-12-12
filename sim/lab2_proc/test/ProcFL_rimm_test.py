@@ -19,6 +19,9 @@ from lab2_proc.test import inst_srai
 from lab2_proc.test import inst_slli
 from lab2_proc.test import inst_lui
 from lab2_proc.test import inst_auipc
+from lab2_proc.test import inst_andi
+from lab2_proc.test import inst_xori
+from lab2_proc.test import inst_srli
 
 #-------------------------------------------------------------------------
 # Tests
@@ -170,6 +173,64 @@ class Tests:
     run_test( s.ProcType, inst_auipc.gen_random_test_delays, delays=True,
             cmdline_opts=s.__class__.cmdline_opts )
 
+  #-----------------------------------------------------------------------
+  # andi
+  #-----------------------------------------------------------------------
 
+  @pytest.mark.parametrize( "name,test", [
+    asm_test( inst_andi.gen_basic_test     ),
+    asm_test( inst_andi.gen_dest_dep_test  ),
+    asm_test( inst_andi.gen_src_dep_test   ),
+    asm_test( inst_andi.gen_srcs_dest_test ),
+    asm_test( inst_andi.gen_value_test     ),
+    asm_test( inst_andi.gen_random_test    ),
+  ])
+
+  def test_andi( s, name, test ):
+    run_test( s.ProcType, test, cmdline_opts=s.__class__.cmdline_opts )
+
+  def test_andi_delays( s ):
+    run_test( s.ProcType, inst_andi.gen_random_test, delays=True,
+              cmdline_opts=s.__class__.cmdline_opts )
+
+  #-----------------------------------------------------------------------
+  # xori
+  #-----------------------------------------------------------------------
+
+  @pytest.mark.parametrize( "name,test", [
+    asm_test( inst_xori.gen_basic_test     ),
+    asm_test( inst_xori.gen_dest_dep_test  ),
+    asm_test( inst_xori.gen_src_dep_test   ),
+    asm_test( inst_xori.gen_srcs_dest_test ),
+    asm_test( inst_xori.gen_value_test     ),
+    asm_test( inst_xori.gen_random_test    ),
+  ])
+
+  def test_xori( s, name, test ):
+    run_test( s.ProcType, test, cmdline_opts=s.__class__.cmdline_opts )
+
+  def test_xori_delays( s ):
+    run_test( s.ProcType, inst_xori.gen_random_test, delays=True,
+              cmdline_opts=s.__class__.cmdline_opts )
+
+  #-----------------------------------------------------------------------
+  # srli
+  #-----------------------------------------------------------------------
+
+  @pytest.mark.parametrize( "name,test", [
+    asm_test( inst_srli.gen_basic_test     ),
+    asm_test( inst_srli.gen_value_test     ),
+    asm_test( inst_srli.gen_x0_test     ),
+    asm_test( inst_srli.gen_hi_regs_edge_test     ),
+    asm_test( inst_srli.gen_long_bypass_chain_test     ),
+    asm_test( inst_srli.gen_random_test     ),
+  ])
+
+  def test_srli( s, name, test ):
+    run_test( s.ProcType, test, cmdline_opts=s.__class__.cmdline_opts )
+
+  def test_srli_delays( s ):
+    run_test( s.ProcType, inst_srli.gen_random_test, delays=True,
+              cmdline_opts=s.__class__.cmdline_opts )
 
 

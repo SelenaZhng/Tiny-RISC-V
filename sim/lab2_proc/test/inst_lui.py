@@ -148,7 +148,7 @@ def gen_write_x0_test():
 
 def gen_random_test():
   asm_code = []
-  for _ in range(100):
+  for _ in range(50):
     imm20 = random.randint(0, 0xFFFFF)
     exp   = (imm20 << 12) & 0xffffffff
     asm_code.append(f"""

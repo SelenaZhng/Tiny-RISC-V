@@ -538,7 +538,7 @@ module lab3_mem_CacheAltCtrl
 
       STATE_TAG_CHECK         :cs(   1'b0 ,  1'b0 ,   1'b0 ,   1'b0  ,   1'b0  ,  1'b0 ,  1'b0,  1'b0,  1'b0, 1'b0,  1'b1, 1'b0,   1'b0,  1'b0,   1'b0,   4'd0,      4'd0  );
 
-      STATE_INIT_DATA_ACCESS  :cs(   1'b0 ,  1'b0 ,   1'b0 ,   1'b0  ,   1'b0  ,  1'b0 ,  1'b0,  1'b0,  1'b0, 1'b1,  1'b0, 1'b0,   1'b0,  1'b0,   1'b0,   4'd2,      4'd0  );
+      STATE_INIT_DATA_ACCESS  :cs(   1'b0 ,  1'b0 ,   1'b0 ,   1'b0  ,   1'b0  ,  1'b0 ,  1'b0,  1'b0,  1'b0, 1'b1,  1'b0, 1'b1,   1'b0,  1'b0,   1'b0,   4'd2,      4'd0  );
       
       STATE_WAIT              :cs(   1'b0 ,  1'b1 ,   1'b0 ,   1'b0  ,   1'b0  ,  1'b0 ,  1'b0,  1'b0,  1'b0, 1'b0,  1'b0, 1'b0 ,  1'b0,  1'b0,   1'b0,cachereq_type,4'd0  );
 
